@@ -44,13 +44,15 @@ class App extends React.Component {
     fetch(url).then((response)=>{
         response.text().then((data)=>{
         this.setState({sentimentOutput:data});
+        let prediction_json = JSON.parse(data);
+        let output_data = 'The sentiment dectected was : ' + prediction_json.label + ', with prediction accuracy of : ' + prediction_json.score;
         let output = data;
-        if(data === "positive") {
-          output = <div style={{color:"green",fontSize:20}}>{data}</div>
-        } else if (data === "negative"){
-          output = <div style={{color:"red",fontSize:20}}>{data}</div>
+        if(prediction_json.label === "positive") {
+          output = <div style={{color:"green",fontSize:40}}>{output_data}</div>
+        } else if (prediction_json.label === "negative"){
+          output = <div style={{color:"red",fontSize:40}}>{output_data}</div>
         } else {
-          output = <div style={{color:"orange",fontSize:20}}>{data}</div>
+          output = <div style={{color:"yellow",fontSize:40}}>{output_data}</div>
         }
         this.setState({sentimentOutput:output});
       })});
